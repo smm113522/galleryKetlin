@@ -2,6 +2,7 @@ package com.kotlin.demo.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
@@ -13,7 +14,6 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.kotlin.demo.IOnItemClick
 import com.kotlin.demo.R
@@ -41,7 +41,8 @@ class MainActivity : BaseActivity(), IOnItemClick {
         fab_camera = findViewById(R.id.fab_camera) as FloatingActionButton?
 
         fab_camera!!.setOnClickListener {
-            Toast.makeText(this, "nihao", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "nihao", Toast.LENGTH_SHORT).show();
+            openCamera()
         }
 
         setSupportActionBar(toolbar)
@@ -157,5 +158,41 @@ class MainActivity : BaseActivity(), IOnItemClick {
         }
         )
     }
+
+    var REQUEST_CAMERA_2 = 1000;
+    var mFilePath: String = Environment.getExternalStorageDirectory().getPath() + "/" + "temp.png";
+    // 拍照后存储并显示图片
+    private fun openCamera() {
+        val intent = Intent() //调用照相机
+        intent.setAction("android.media.action.STILL_IMAGE_CAMERA");
+        startActivity(intent);
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+//        val photoUri = Uri.fromFile(File(mFilePath)) // 传递路径
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)// 更改系统默认存储路径
+//        startActivityForResult(intent, REQUEST_CAMERA_2)
+    }
+
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) { // 如果返回数据
+            if (requestCode == REQUEST_CAMERA_2) {
+                var fis: FileInputStream? = null
+                try {
+                    fis = FileInputStream(mFilePath) // 根据路径获取数据
+                    val bitmap = BitmapFactory.decodeStream(fis)
+//                    ivShowPicture.setImageBitmap(bitmap)// 显示图片
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } finally {
+                    try {
+                        fis!!.close()// 关闭流
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+
+                }
+            }
+        }
+    }*/
 
 }
